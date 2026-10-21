@@ -60,17 +60,18 @@ h1{font-family:var(--display);font-weight:700;font-size:clamp(40px,9vw,68px);lin
 .head b{color:var(--ink);font-weight:500}
 .who{font-family:var(--display);font-size:19px;font-weight:600;margin:0;line-height:1.2}
 .who small{display:block;font-weight:500;font-size:14px;color:var(--muted);letter-spacing:.02em}
-blockquote{margin:0;font-size:clamp(19px,4.4vw,23px);line-height:1.38;font-style:italic;padding-right:64px}
+blockquote{margin:0;font-size:clamp(19px,4.4vw,23px);line-height:1.38;font-style:italic}
 blockquote::before{content:"„"}blockquote::after{content:"“"}
 dl{display:grid;grid-template-columns:150px 1fr;gap:8px 16px;margin:0;font-size:15px}
 dt{font-family:var(--display);font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);padding-top:3px}
 dd{margin:0;min-width:0}
 dd.office-note{color:var(--stamp)}
 dd a{color:var(--ink);text-decoration-color:var(--stamp);text-underline-offset:3px;word-break:break-word}
-.stamp{position:absolute;top:58px;right:14px;transform:rotate(-12deg);font-family:var(--display);font-weight:700;font-size:12px;
+.namerow{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}.namerow .who{min-width:0}
+.stamp{flex:none;margin:4px 4px 0 0;transform:rotate(-10deg);font-family:var(--display);font-weight:700;font-size:12px;
   letter-spacing:.14em;text-transform:uppercase;color:var(--stamp);border:2px solid var(--stamp);border-radius:3px;padding:4px 8px;
   background:var(--stamp-soft);text-align:center;line-height:1.15;opacity:.85}
-@media (max-width:560px){dl{grid-template-columns:1fr;gap:2px}dd{margin-bottom:8px}blockquote{padding-right:0}.stamp{top:34px;right:8px;font-size:10.5px;padding:3px 6px;opacity:.8}.who{padding-right:44px}}
+@media (max-width:560px){dl{grid-template-columns:1fr;gap:2px}dd{margin-bottom:8px}.stamp{font-size:10.5px;padding:3px 6px}}
 .stamp{pointer-events:none;z-index:1;mix-blend-mode:multiply}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .stamp{mix-blend-mode:screen}}
 :root[data-theme="dark"] .stamp{mix-blend-mode:screen}
@@ -302,8 +303,7 @@ function render(){
   list.innerHTML=rows.map(e=>`
     <article class="card" id="${e.id.replace(/\//g,'-')}">
       <div class="head"><span>Č. j. <b>${e.id}</b></span><span>Oblast: <b>${esc(e.area)}</b></span><span>Datum: <b>${esc(e.date)}</b></span></div>
-      <div class="stamp" aria-hidden="true">${e.stamp}</div>
-      <h2 class="who">${esc(e.person)}<small>${esc(e.role)}</small></h2>
+      <div class="namerow"><h2 class="who">${esc(e.person)}<small>${esc(e.role)}</small></h2><div class="stamp" aria-hidden="true">${e.stamp}</div></div>
       <blockquote>${esc(e.quote)}</blockquote>
       <dl>
         <dt>Kontext</dt><dd>${esc(e.context)}</dd>
