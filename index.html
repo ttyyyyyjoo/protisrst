@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Proti srsti</title>
+<meta name="description" content="Úřední evidence výroků a kroků vládní koalice, které jdou proti srsti odborným koncepcím. Satirický projekt, citace doslovně a se zdrojem.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: úřední spis — hlavička úřadu, pak evidenční listy pod sebou, každý s razítkem */
+:root{
+  --paper:#eef0ea;       /* šedozelený tiskopis */
+  --sheet:#f8f9f5;
+  --ink:#1d2430;
+  --muted:#5d6672;
+  --rule:#c9cec4;
+  --stamp:#5a3d8f;       /* fialové razítko */
+  --stamp-soft:rgba(90,61,143,.10);
+  --display:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+  --body:"Literata",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#161a20;--sheet:#1e232b;--ink:#e3e6ea;--muted:#9aa3ae;--rule:#343b45;
+  --stamp:#b59cf0;--stamp-soft:rgba(181,156,240,.12);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#161a20;--sheet:#1e232b;--ink:#e3e6ea;--muted:#9aa3ae;--rule:#343b45;
+  --stamp:#b59cf0;--stamp-soft:rgba(181,156,240,.12);color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+
+/* hlavička */
+header{display:flex;flex-direction:column;gap:10px;border-bottom:2px solid var(--ink);padding-bottom:18px}
+.office{font-family:var(--display);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(40px,9vw,68px);line-height:.95;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:0;max-width:60ch;color:var(--ink)}
+.defn{margin:0;max-width:60ch;font-size:15px;border-left:3px solid var(--stamp);padding:4px 0 4px 12px;color:var(--muted)}
+.defn b{color:var(--ink)}.defn a{color:var(--stamp)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+
+/* filtr */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters span{font-family:var(--display);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.filters button{font:500 14px var(--display);letter-spacing:.03em;color:var(--ink);background:transparent;border:1px solid var(--rule);
+  padding:6px 12px;border-radius:2px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.filters button:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+
+/* evidenční list */
+.list{display:flex;flex-direction:column;gap:20px}
+.card{position:relative;background:var(--sheet);border:1px solid var(--rule);padding:20px 20px 18px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;font-family:var(--mono);font-size:12.5px;color:var(--muted);
+  border-bottom:1px dashed var(--rule);padding-bottom:10px}
+.head b{color:var(--ink);font-weight:500}
+.who{font-family:var(--display);font-size:19px;font-weight:600;margin:0;line-height:1.2}
+.who small{display:block;font-weight:500;font-size:14px;color:var(--muted);letter-spacing:.02em}
+blockquote{margin:0;font-size:clamp(19px,4.4vw,23px);line-height:1.38;font-style:italic;padding-right:64px}
+blockquote::before{content:"„"}blockquote::after{content:"“"}
+dl{display:grid;grid-template-columns:150px 1fr;gap:8px 16px;margin:0;font-size:15px}
+dt{font-family:var(--display);font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+dd{margin:0;min-width:0}
+dd.office-note{color:var(--stamp)}
+dd a{color:var(--ink);text-decoration-color:var(--stamp);text-underline-offset:3px;word-break:break-word}
+.stamp{position:absolute;top:58px;right:14px;transform:rotate(-12deg);font-family:var(--display);font-weight:700;font-size:12px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--stamp);border:2px solid var(--stamp);border-radius:3px;padding:4px 8px;
+  background:var(--stamp-soft);text-align:center;line-height:1.15;opacity:.85}
+@media (max-width:560px){dl{grid-template-columns:1fr;gap:2px}dd{margin-bottom:8px}blockquote{padding-right:0;padding-top:8px}.stamp{top:auto;bottom:14px}.card{padding-bottom:54px}}
+
+footer{border-top:1px solid var(--rule);padding-top:16px;font-size:13.5px;color:var(--muted);display:flex;flex-direction:column;gap:8px;max-width:65ch}
+footer p{margin:0}
+@media (prefers-reduced-motion:no-preference){.card{transition:opacity .2s}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="office">Úřad pro evidenci výroků proti srsti · odbor koncepcí</div>
+    <h1>Proti srsti</h1>
+    <p class="lede">Úřední evidence výroků a kroků vládní koalice, které jdou proti srsti odborným koncepcím, vědeckému konsenzu a dokumentům, na nichž se dřív shodly stovky lidí. Citace jsou doslovné, každá se zdrojem. Komentáře úřadu jsou satira.</p>
+    <p class="defn"><b>proti srsti</b> <i>přísl. spojení</i> — směr, kterým se hladí, nikoli chodí. Chodí se proti proudu. Viz též <a href="#PS-2026-008">PS/2026/008</a>.</p>
+    <div class="meta"><span>Spisová značka: PS/2026</span><span id="count"></span><span>Poslední zápis: 21. 10. 2026</span></div>
+  </header>
+
+  <nav class="filters" aria-label="Filtr podle oblasti" id="filters"><span>Oblast</span></nav>
+
+  <main class="list" id="list"></main>
+
+  <footer>
+    <p><b>Poučení:</b> Jde o satirický projekt. Výroky v uvozovkách jsou doslovné citace převzaté z uvedených zdrojů. Text v řádcích „Kontext“ a „Vyjádření úřadu“ je náš vlastní a nepředstavuje citaci. Úřad pro evidenci výroků proti srsti neexistuje, což ho odlišuje od některých jiných úřadů jen částečně.</p>
+    <p>Našli jste chybu v citaci nebo zdroji? Opravíme ji.</p>
+  </footer>
+</div>
+
+<script>
+const ENTRIES = [
+  {
+    id:"PS/2026/008", area:"Proti srsti", person:"Motoristé sobě", role:"billboard ke komunálním volbám v Praze, na něm Petr Macinka a lídryně Klára Sovová",
+    quote:"Odvaha jít proti srsti",
+    date:"srpen 2026", context:"Slogan doplnilo razítko s nápisem „Hrozní jsme“. Komentátoři upozornili, že proti srsti se hladí a proti proudu se chodí; slogan spojil obě rčení do jednoho.",
+    office:"Úřad potvrzuje, že proti srsti lze jít. Výsledkem je zcuchaný kožich. Podle nálezu jde o přesný popis programu.",
+    stamp:"Zakládající<br>listina",
+    src:"CNN Prima NEWS: Odvaha jít proti srsti? Lidé se podivují nad billboardem", url:"https://cnn.iprima.cz/odvaha-jit-proti-srsti-lide-se-podivuji-nad-prazskym-billboardem-motoristu-519523"
+  },
+  {
+    id:"PS/2026/009", area:"Proti srsti", person:"Oto Klempíř", role:"ministr kultury (za Motoristy)",
+    quote:"vsadili jsme na to, že jdeme proti srsti",
+    date:"10. 10. 2026", context:"Hodnocení komunálních voleb pro Deník. Motoristé podle něj zvolili provokativní linii, včetně videí s razítky, jimiž si dělali legraci z přebujelé byrokracie.",
+    office:"Sázka evidována. Úřad razítkem potvrzuje, že kampaň proti razítkům byla vedena razítky.",
+    stamp:"Ověřeno<br>razítkem",
+    src:"Deník: Tryskáč nepomohl a Grolich zúročil letité snahy, hodnotí Klempíř volby", url:"https://www.denik.cz/komunalni-volby/komunalni-senatni-volby-motoriste-oto-klempir/"
+  },
+  {
+    id:"PS/2026/010", area:"Kultura", person:"Oto Klempíř", role:"ministr kultury (za Motoristy)",
+    quote:"Svoboda projevu ale neznamená automatický nárok na veřejnou dotaci.",
+    date:"14. 10. 2026", context:"Reakce na kritiku profesních asociací, které nové dotační podmínky vyhlášené 12. října považují za ohrožení svobody tvorby. Podle nich by podle nových pravidel neprošel ani Švejk nebo Kupec benátský.",
+    office:"Úřad vede Švejka v evidenci jako žadatele s nejistým výsledkem. Kupec benátský zatím nepodal žádost.",
+    stamp:"Dotace<br>v řízení",
+    src:"ČT24: Klempíř odmítl kritiku změn u dotací", url:"https://ct24.ceskatelevize.cz/clanek/kultura/klempir-odmitl-kritiku-zmen-u-dotaci-ze-strany-profesnich-asociaci-378604"
+  },
+  {
+    id:"PS/2026/011", area:"Kultura", person:"Oto Klempíř", role:"ministr kultury (za Motoristy)",
+    quote:"Není to cenzura, ale odpovědnost za veřejné prostředky.",
+    date:"20. 10. 2026", context:"Odborné komise ministerstva, které posuzují granty, začaly hromadně rezignovat. Z komise pro tanec a nonverbální divadlo má podle její předsedkyně odejít asi 90 procent členů. Ministerstvo slíbilo komise doplnit.",
+    office:"Odborníci odstoupili, aby nebránili odbornému posouzení. Úřad oceňuje, že ministerstvo takto dosáhlo nulového střetu zájmů i nulového počtu odborníků.",
+    stamp:"Komise<br>vyprázdněna",
+    src:"iROZHLAS: Odborníci z ministerstva kultury rezignují", url:"https://www.irozhlas.cz/kultura/neucta-k-nasi-praci-odbornici-z-ministerstva-kultury-rezignuji-nesouhlasi-se_2610201929_dns"
+  },
+  {
+    id:"PS/2026/012", area:"Kultura", person:"Oto Klempíř", role:"ministr kultury (za Motoristy)",
+    quote:"…byl spíš takovým křikem zájmových organizací.",
+    date:"5. 10. 2026", context:"Na tiskové konferenci vlády takto označil kritiku nové Státní kulturní politiky, kterou odmítly umělecké a profesní asociace.",
+    office:"Hlas odborné veřejnosti překlasifikován na hluk. Úřad doporučuje řešit jej podle vyhlášky o nočním klidu.",
+    stamp:"Překlasifikováno",
+    src:"iROZHLAS / Vinohradská 12: Klempíř vs. kultura", url:"https://www.irozhlas.cz/zpravy-domov/klempirovy-zmeny-na-kulture-nevymyslel-teplou-vodu-jen-pritahuje-kohoutky-tvrdi_2610190600_jkd"
+  },
+  {
+    id:"PS/2026/013", area:"Kultura", person:"Boris Šťastný", role:"ministr pro sport, prevenci a zdraví (Motoristé)",
+    quote:"Zrušit dotace, nechat tržní vstupné a nechodit tam",
+    date:"červen 2026", context:"Návrh na adresu folklorního festivalu ve Strážnici poté, co tam publikum vypískalo ministra Klempíře. Festival podle Deníku N žádné dotace nedostává.",
+    office:"Zrušení neexistující dotace úřad zapisuje jako nejrychleji splněný bod programu vlády.",
+    stamp:"Splněno<br>předem",
+    src:"Deník N: Zrušit dotace pro Strážnici, navrhuje Šťastný", url:"https://denikn.cz/2109851/zrusit-dotace-pro-straznici-navrhuje-stastny-po-vypiskani-klempire-vypadni-kriceli-lide-na-macinku/"
+  },
+  {
+    id:"PS/2026/001", area:"Klima", person:"Petr Macinka", role:"předseda Motoristů sobě, vicepremiér, ministr zahraničí, pověřený vedením MŽP",
+    quote:"představa, že je možné klima na Zemi ovlivňovat nebo stabilizovat, je naivní, falešná a nevědecká",
+    date:"2025", context:"Výrok pro iDnes.cz. V anketě Zelená perla spolku Děti Země skončil na 2. místě; první místo obsadil tentýž autor.",
+    office:"Úřad bere na vědomí, že jako nevědecké byla označena věda. Spis postupuje k vyřízení klimatu, které se k věci zatím nevyjádřilo.",
+    stamp:"Evidováno",
+    src:"Seznam Zprávy: Nejvíce antiekologický výrok loni pronesl Macinka", url:"https://www.seznamzpravy.cz/clanek/domaci-zivot-v-cesku-nejvice-antiekologicky-vyrok-loni-pronesl-predseda-strany-motoriste-sobe-macinka-280429"
+  },
+  {
+    id:"PS/2026/002", area:"Klima", person:"Petr Macinka", role:"pověřený ministr životního prostředí",
+    quote:"Klimatická krize v Česku skončila",
+    date:"po převzetí MŽP", context:"Na stejné radě ministrů EU zastupoval Česko na základě Macinkou podepsaného mandátu slovenský ministr Tomáš Taraba, včetně práva hlasovat.",
+    office:"Krize ukončena výrokem. Úřad doporučuje stejný postup u povodní, sucha a schodku rozpočtu.",
+    stamp:"Vyřízeno<br>prohlášením",
+    src:"Echo24: „Klimatická krize v Česku skončila“, řekl Macinka", url:"https://www.echo24.cz/a/H8fFs/zpravy-domaci-macinka-mzp-motoriste-nova-vlada-babis"
+  },
+  {
+    id:"PS/2026/003", area:"Klima", person:"Petr Macinka", role:"předseda Motoristů sobě",
+    quote:"odideologizovat Ministerstvo životního prostředí",
+    date:"2025", context:"Podle Macinky by to byl pro stranu zajímavý projekt. Výrok vyhrál 30. ročník ankety Zelená perla. Autor ČTK sdělil, že si vítězství nesmírně váží.",
+    office:"Ideologie ochrany životního prostředí odstraněna. Úřad prověřuje, zda zbylo i životní prostředí.",
+    stamp:"Evidováno",
+    src:"Seznam Zprávy: Zelená perla", url:"https://www.seznamzpravy.cz/clanek/domaci-zivot-v-cesku-nejvice-antiekologicky-vyrok-loni-pronesl-predseda-strany-motoriste-sobe-macinka-280429"
+  },
+  {
+    id:"PS/2026/004", area:"Kultura", person:"Oto Klempíř", role:"ministr kultury (za Motoristy)",
+    quote:"Pro kulturní sektor znamená větší předvídatelnost.",
+    date:"2026", context:"Vláda schválila novou Státní kulturní politiku 2026–2029. Nahradila koncepci, kterou o rok dřív přijala předchozí vláda po široké shodě stovek odborníků. Umělecké asociace žádaly její zamítnutí; kritizovaly, že vznikla bez zapojení odborné veřejnosti.",
+    office:"Nejvyšší předvídatelnosti se dosahuje tak, že se každá koncepce nahradí dřív, než začne platit. Úřad oceňuje úsporu času.",
+    stamp:"Koncepce<br>nahrazena",
+    src:"Seznam Zprávy: Vláda schválila Klempířovu kulturní strategii", url:"https://www.seznamzpravy.cz/clanek/316814"
+  },
+  {
+    id:"PS/2026/005", area:"Koncepce", person:"Andrej Babiš", role:"předseda vlády (ANO)",
+    quote:"Stratkom končí, protože ho nepotřebujeme.",
+    date:"začátek 2026", context:"Vláda zrušila odbor strategické komunikace při Úřadu vlády, který se zabýval i dezinformacemi. Podle poslance ANO Radka Vondráčka nebude mít náhradu.",
+    office:"Dezinformace se tímto vyzývají, aby se dobrovolně přihlásily na podatelně.",
+    stamp:"Odbor<br>zrušen",
+    src:"Echo24: Vláda ruší strategickou komunikaci státu", url:"https://www.echo24.cz/a/H4kjF/stratkom-strategicka-komunikace-konec-foltyn-urad-vlady-babis-vondracek-ano"
+  },
+  {
+    id:"PS/2026/006", area:"Ukrajina", person:"Tomio Okamura", role:"předseda SPD a předseda Poslanecké sněmovny",
+    quote:"Ukončím dočasnou ochranu okamžitě, kdyby to bylo na mně.",
+    date:"14. 6. 2026", context:"Výrok v pořadu Partie na CNN Prima NEWS. K únoru 2026 bylo v Česku přes 398 000 lidí s dočasnou ochranou; podle zástupců jiných stran včetně koaličních jsou nezbytní mimo jiné ve stavebnictví a zdravotnictví.",
+    office:"Úřad eviduje návrh řešit nedostatek pracovníků jejich odjezdem.",
+    stamp:"Evidováno",
+    src:"Blesk / ČTK: Okamura by zrušil ochranu uprchlíků z Ukrajiny", url:"https://www.blesk.cz/clanek/841633"
+  },
+  {
+    id:"PS/2026/007", area:"Ukrajina", person:"Tomio Okamura", role:"předseda Poslanecké sněmovny",
+    quote:"Ať si kradou, ale už ne z našeho, a ať taková země není v Evropské unii",
+    date:"leden 2026", context:"Navázal na novoroční projev, ve kterém se vymezil proti dodávkám zbraní napadené Ukrajině. Předseda ukrajinského parlamentu výroky odsoudil, ministr zahraničí Macinka se Okamury zastal.",
+    office:"Kritiku výroků ústavního činitele úřad eviduje jako nepřípustnou, výroky samotné jako přípustné. Zakládá se do složky „Diplomacie obráceně“.",
+    stamp:"Diplomaticky<br>doručeno",
+    src:"CNN Prima NEWS: Spor o Okamuru houstne", url:"https://cnn.iprima.cz/spor-o-okamuru-houstne-skodi-cesku-tvrdi-sef-ukrajinskeho-parlamentu-macinka-kritiku-odmita-500299"
+  }
+];
+
+const list=document.getElementById('list'), filters=document.getElementById('filters');
+const areas=["Vše",...new Set(ENTRIES.map(e=>e.area))];
+let current="Vše";
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function render(){
+  const rows=ENTRIES.filter(e=>current==="Vše"||e.area===current);
+  list.innerHTML=rows.map(e=>`
+    <article class="card" id="${e.id.replace(/\//g,'-')}">
+      <div class="head"><span>Č. j. <b>${e.id}</b></span><span>Oblast: <b>${esc(e.area)}</b></span><span>Datum: <b>${esc(e.date)}</b></span></div>
+      <div class="stamp" aria-hidden="true">${e.stamp}</div>
+      <h2 class="who">${esc(e.person)}<small>${esc(e.role)}</small></h2>
+      <blockquote>${esc(e.quote)}</blockquote>
+      <dl>
+        <dt>Kontext</dt><dd>${esc(e.context)}</dd>
+        <dt>Vyjádření úřadu</dt><dd class="office-note">${esc(e.office)}</dd>
+        <dt>Zdroj</dt><dd><a href="${e.url}" target="_blank" rel="noopener">${esc(e.src)}</a></dd>
+      </dl>
+    </article>`).join('');
+  document.getElementById('count').textContent=`Evidováno záznamů: ${ENTRIES.length}`;
+}
+areas.forEach(a=>{const b=document.createElement('button');b.type='button';b.textContent=a;b.setAttribute('aria-pressed',a===current);
+  b.onclick=()=>{current=a;filters.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.textContent===a));render()};filters.appendChild(b)});
+render();
+</script>
+</body>
+</html>
