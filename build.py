@@ -65,7 +65,8 @@ def masthead(home=True):
 
 def card(e, h="h2", link=True):
     cj = f'<a href="{path_of(e)}">{e["id"]}</a>' if link else e["id"]
-    src = f'<a href="{esc(e["url"])}" rel="noopener" target="_blank">{esc(e["src"])}</a>'
+    src = (f'<a href="{esc(e["url"])}" rel="noopener" target="_blank">{esc(e["src"])}</a>' if e.get("url")
+           else esc(e["src"]))
     if e.get("src2"):
         src += f'<br><a href="{esc(e["url2"])}" rel="noopener" target="_blank">{esc(e["src2"])}</a>'
     return f"""    <article class="card" id="{anchor(e)}" data-area="{esc(e['area'])}">
@@ -128,7 +129,7 @@ def entry_page(i, e):
     desc = f"{e['person']} ({e['date']}): „{q}“ Kontext, zdroj a vyjádření úřadu. Č. j. {e['id']}."
     ld = [{"@context": "https://schema.org", "@type": "Quotation", "text": q, "inLanguage": "cs",
            "spokenByCharacter": {"@type": "Person", "name": e["person"]},
-           "isBasedOn": e["url"], "url": SITE + path_of(e)}]
+           "url": SITE + path_of(e), **({"isBasedOn": e["url"]} if e.get("url") else {})}]
     prev_e, next_e = (E[i - 1] if i > 0 else None), (E[i + 1] if i + 1 < len(E) else None)
     nav = '  <nav class="pager">'
     nav += f'<a href="{path_of(prev_e)}">← {prev_e["id"]}</a>' if prev_e else '<span></span>'
