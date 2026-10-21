@@ -1,0 +1,89 @@
+/* Layout: úřední spis — hlavička úřadu, pak evidenční listy pod sebou, každý s razítkem */
+:root{
+  --paper:#eef0ea;       /* šedozelený tiskopis */
+  --sheet:#f8f9f5;
+  --ink:#1d2430;
+  --muted:#5d6672;
+  --rule:#c9cec4;
+  --stamp:#5a3d8f;       /* fialové razítko */
+  --stamp-soft:rgba(90,61,143,.10);
+  --display:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+  --body:"Literata",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#161a20;--sheet:#1e232b;--ink:#e3e6ea;--muted:#9aa3ae;--rule:#343b45;
+  --stamp:#b59cf0;--stamp-soft:rgba(181,156,240,.12);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#161a20;--sheet:#1e232b;--ink:#e3e6ea;--muted:#9aa3ae;--rule:#343b45;
+  --stamp:#b59cf0;--stamp-soft:rgba(181,156,240,.12);color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+
+/* hlavička */
+header{display:flex;flex-direction:column;gap:10px;border-bottom:2px solid var(--ink);padding-bottom:18px}
+.office{font-family:var(--display);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(40px,9vw,68px);line-height:.95;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:0;max-width:60ch;color:var(--ink)}
+.defn{margin:0;max-width:60ch;font-size:15px;border-left:3px solid var(--stamp);padding:4px 0 4px 12px;color:var(--muted)}
+.defn b{color:var(--ink)}.defn a{color:var(--stamp)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+
+/* filtr */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters span{font-family:var(--display);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.filters button{font:500 14px var(--display);letter-spacing:.03em;color:var(--ink);background:transparent;border:1px solid var(--rule);
+  padding:6px 12px;border-radius:2px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.filters button:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+
+/* evidenční list */
+.list{display:flex;flex-direction:column;gap:20px}
+.card{position:relative;background:var(--sheet);border:1px solid var(--rule);padding:20px 20px 18px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;font-family:var(--mono);font-size:12.5px;color:var(--muted);
+  border-bottom:1px dashed var(--rule);padding-bottom:10px}
+.head b{color:var(--ink);font-weight:500}
+.who{font-family:var(--display);font-size:19px;font-weight:600;margin:0;line-height:1.2}
+.who small{display:block;font-weight:500;font-size:14px;color:var(--muted);letter-spacing:.02em}
+blockquote{margin:0;font-size:clamp(19px,4.4vw,23px);line-height:1.38;font-style:italic}
+blockquote::before{content:"„"}blockquote::after{content:"“"}
+dl{display:grid;grid-template-columns:150px 1fr;gap:8px 16px;margin:0;font-size:15px}
+dt{font-family:var(--display);font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+dd{margin:0;min-width:0}
+dd.office-note{color:var(--stamp)}
+dd a{color:var(--ink);text-decoration-color:var(--stamp);text-underline-offset:3px;word-break:break-word}
+.namerow{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}.namerow .who{min-width:0}
+.stamp{flex:none;margin:4px 4px 0 0;transform:rotate(-10deg);font-family:var(--display);font-weight:700;font-size:12px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--stamp);border:2px solid var(--stamp);border-radius:3px;padding:4px 8px;
+  background:var(--stamp-soft);text-align:center;line-height:1.15;opacity:.85}
+@media (max-width:560px){dl{grid-template-columns:1fr;gap:2px}dd{margin-bottom:8px}.stamp{font-size:10.5px;padding:3px 6px}}
+.stamp{pointer-events:none;z-index:1;mix-blend-mode:multiply}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .stamp{mix-blend-mode:screen}}
+:root[data-theme="dark"] .stamp{mix-blend-mode:screen}
+
+footer{border-top:1px solid var(--rule);padding-top:16px;font-size:13.5px;color:var(--muted);display:flex;flex-direction:column;gap:8px;max-width:65ch}
+footer p{margin:0}
+@media (prefers-reduced-motion:no-preference){.card{transition:opacity .2s}}
+
+/* podstránky */
+.h1{margin:0;font-family:var(--display);font-weight:700;font-size:clamp(30px,7vw,44px);line-height:1}
+.h1 a{color:var(--ink);text-decoration:none}
+.h1 a:hover{text-decoration:underline;text-decoration-color:var(--stamp)}
+h1.who{font-size:22px}
+.head a{color:var(--ink);text-decoration-color:var(--stamp);text-underline-offset:3px}
+.pager{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:13px}
+.pager a{color:var(--ink);text-decoration-color:var(--stamp);text-underline-offset:3px}
+.article{background:var(--sheet);border:1px solid var(--rule);padding:24px 20px;display:flex;flex-direction:column;gap:18px;max-width:none}
+.article h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,6vw,40px);line-height:1.05;margin:0;text-wrap:balance}
+.article h2{font-family:var(--display);font-weight:600;font-size:20px;margin:0 0 6px;letter-spacing:.01em}
+.article section{display:flex;flex-direction:column;gap:8px;border-top:1px dashed var(--rule);padding-top:14px}
+.article p{margin:0;max-width:65ch}
+.article a{color:var(--ink);text-decoration-color:var(--stamp);text-underline-offset:3px}
+.ex{color:var(--muted);font-size:15px;border-left:3px solid var(--rule);padding-left:12px}
+.ruling ol{margin:0;padding-left:1.4em;font-size:19px;display:flex;flex-direction:column;gap:4px}
+.ruling li::marker{font-family:var(--mono);color:var(--stamp)}
+.note{font-size:13.5px;color:var(--muted)}
